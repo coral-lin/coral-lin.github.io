@@ -1,0 +1,13 @@
+{
+  "name": "resume-api-mock",
+  "version": "1.0.0",
+  "description": "假資料 API，供履歷前端先行串接使用",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}

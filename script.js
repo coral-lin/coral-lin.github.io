@@ -76,6 +76,37 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   }
 
+  function renderStaticContent() {
+    const ui = content?.ui;
+    if (!ui) return;
+
+    const textTargets = [
+      [document.querySelector('#experience .section-header h2'), ui.experienceTitle],
+      [document.querySelector('#experience .section-header p'), ui.experienceDescription],
+      [document.querySelector('#skills .section-header h2'), ui.skillsTitle],
+      [document.querySelector('#skills .section-header p'), ui.skillsDescription],
+      [document.getElementById('footer-rights'), ui.footerRights]
+    ];
+
+    textTargets.forEach(([element, text]) => {
+      if (element && text) element.textContent = text;
+    });
+
+    const languageSwitcher = document.querySelector('.lang-switcher');
+    const portraitCard = document.querySelector('.portrait-card');
+    const portraitImage = document.querySelector('.portrait-image');
+    const diagramShell = document.querySelector('.diagram-shell');
+    const contactSection = document.getElementById('contact');
+    const modalCloseButton = document.querySelector('.modal-close');
+
+    if (languageSwitcher) languageSwitcher.setAttribute('aria-label', ui.languageSwitcherLabel);
+    if (portraitCard) portraitCard.setAttribute('aria-label', ui.portraitLabel);
+    if (portraitImage) portraitImage.setAttribute('alt', ui.portraitAlt);
+    if (diagramShell) diagramShell.setAttribute('aria-label', ui.diagramLabel);
+    if (contactSection) contactSection.setAttribute('aria-label', ui.contactSectionLabel);
+    if (modalCloseButton) modalCloseButton.setAttribute('aria-label', ui.modalCloseLabel);
+  }
+
   function updatePageMeta(localeKey) {
     const pageMeta = window.siteContent?.texts?.[localeKey]?.meta;
     const titleTag = document.querySelector('title');
@@ -101,10 +132,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     updatePageMeta(localeKey);
+    renderStaticContent();
     renderIntro();
     renderExperience();
     renderSkills();
     renderContactForm();
+    renderFloatingContactButton();
     renderFooter();
     applyLocaleContent(localeKey);
     hidePanel();
@@ -178,6 +211,18 @@ document.addEventListener('DOMContentLoaded', () => {
           `;
         }
 
+        if (field.type === 'select') {
+          return `
+            <label>
+              ${escapeHtml(field.label)}
+              <select name="${escapeHtml(field.name)}" ${field.required ? 'required' : ''}>
+                <option value="" selected disabled>${escapeHtml(field.placeholder)}</option>
+                ${(field.options || []).map((option) => `<option value="${escapeHtml(option)}">${escapeHtml(option)}</option>`).join('')}
+              </select>
+            </label>
+          `;
+        }
+
         return `
           <label>
             ${escapeHtml(field.label)}
@@ -186,6 +231,17 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
       })
       .join('');
+  }
+
+  function renderFloatingContactButton() {
+    const floatingContactButton = document.querySelector('.floating-contact-button');
+    const floatingContactText = document.querySelector('.floating-contact-text');
+    const label = content?.modal?.triggerLabel;
+
+    if (!floatingContactButton || !floatingContactText || !label) return;
+
+    floatingContactText.textContent = label;
+    floatingContactButton.setAttribute('aria-label', label);
   }
 
   function renderFooter() {
@@ -389,14 +445,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const payload = {
         name: String(formData.get('name') || '').trim(),
         email: String(formData.get('email') || '').trim(),
-        message: String(formData.get('message') || '').trim()
+        message: String(formData.get('message') || '').trim(),
+        why: String(formData.get('why') || '').trim()
       };
 
       const sanitizedName = payload.name.replace(/[<>]/g, '').slice(0, 100);
       const sanitizedEmail = payload.email.replace(/[<>]/g, '').slice(0, 254);
       const sanitizedMessage = payload.message.replace(/[<>]/g, '').slice(0, 1000);
+      const sanitizedWhy = payload.why.replace(/[<>]/g, '').slice(0, 100);
 
-      if (!sanitizedName || !sanitizedEmail || !sanitizedMessage) {
+      if (!sanitizedName || !sanitizedEmail || !sanitizedMessage || !sanitizedWhy) {
         alert('請完整填寫姓名、電子郵件與訊息內容。');
         return;
       }
@@ -410,7 +468,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const safePayload = {
         name: sanitizedName,
         email: sanitizedEmail,
-        message: sanitizedMessage
+        message: sanitizedMessage,
+        why: sanitizedWhy
       };
 
       try {
@@ -445,10 +504,12 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   updatePageMeta(currentLocale);
+  renderStaticContent();
   renderIntro();
   renderExperience();
   renderSkills();
   renderContactForm();
+  renderFloatingContactButton();
   renderFooter();
 
   // 先載入 API data，再套用本地語系內容，最後還原初始狀態。
