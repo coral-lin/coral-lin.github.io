@@ -204,9 +204,9 @@ document.addEventListener('DOMContentLoaded', () => {
           return `
             <label>
               ${escapeHtml(field.label)}
-              <textarea name="${escapeHtml(field.name)}" rows="5" placeholder="${escapeHtml(field.placeholder)}" ${field.required ? 'required' : ''}></textarea>
+              <textarea name="${escapeHtml(field.name)}" autocomplete="off" rows="5" placeholder="${escapeHtml(field.placeholder)}" ${field.required ? 'required' : ''}></textarea>
             </label>
-          `;
+         `;
         }
 
         if (field.type === 'select') {
@@ -222,11 +222,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         return `
-          <label>
+         <label>
             ${escapeHtml(field.label)}
-            <input type="${escapeHtml(field.type)}" name="${escapeHtml(field.name)}" placeholder="${escapeHtml(field.placeholder)}" ${field.required ? 'required' : ''} />
-          </label>
-        `;
+            <input type="${escapeHtml(field.type)}" name="${escapeHtml(field.name)}" autocomplete="${field.name === 'name' ? 'name' : field.name === 'email' ? 'email' : 'off'}" placeholder="${escapeHtml(field.placeholder)}" ${field.required ? 'required' : ''} />
+         </label>
+       `;
       })
       .join('');
   }
