@@ -481,7 +481,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tempForm = document.createElement('form');
               tempForm.method = 'POST';
               tempForm.action = contactApiUrl;
-              tempForm.target = 'hiddenFormFrame';
+              tempForm.target = '_self';
               tempForm.style.display = 'none';
 
          formData.forEach((value, key) => {
