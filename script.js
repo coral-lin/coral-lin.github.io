@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const diagramCoreLabel = document.querySelector('[data-role="core-label"]');
   const segments = document.querySelectorAll('.segment-arc');
   const focusLabels = document.querySelectorAll('[data-role="label"]');
-  const focusApiUrl = '/api/focus';
   const contactApiUrl = 'https://script.google.com/macros/s/AKfycbwDIv72NvyRqUI8Szu-lcW8AC2xUBh2T2A9gv_ZBnkBRKU34QHX7nlBEfPFA0NYUPA/exec';
   function escapeHtml(text) {
     return String(text)
@@ -295,35 +294,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (isFileProtocol) {
       applyFocusItems(fallbackFocusItems);
+      }
       return;
     }
-
-    try {
-      const response = await fetch(focusApiUrl, {
-        method: 'GET',
-        credentials: 'same-origin',
-        headers: {
-          'Accept': 'application/json'
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error('focus API 回應錯誤');
-      }
-
-      const result = await response.json();
-
-      if (!result.success) {
-        throw new Error(result.message || '無法載入 focus 資料');
-      }
-
-      const focusItems = result.data || fallbackFocusItems;
-      applyFocusItems(focusItems);
-    } catch (error) {
-      console.warn('後端未啟動或 API 無法連線，使用本地預設 focus 資料。');
-      applyFocusItems(fallbackFocusItems);
-    }
-  }
+  applyFocusItems(fallbackFocusItems);
 
   function setFocusState(activeSegment) {
     segments.forEach((item) => {
