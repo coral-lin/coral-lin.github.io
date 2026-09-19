@@ -472,27 +472,37 @@ document.addEventListener('DOMContentLoaded', () => {
       };
 
       try {
-        const response = await fetch(contactApiUrl, {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-          },
-          body: new URLSearchParams(safePayload)
-       });
+        const formData = new FormData();
+              formData.append('name', sanitizedName);
+              formData.append('email', sanitizedEmail);
+              formData.append('reason', sanitizedReason);
+              formData.append('message', sanitizedMessage);
 
-        const result = await response.json();
+        const tempForm = document.createElement('form');
+              tempForm.method = 'POST';
+              tempForm.action = contactApiUrl;
+              tempForm.target = '_blank';
+              tempForm.style.display = 'none';
 
-        if (!response.ok || !result.success) {
-          throw new Error(result.message || '表單送出失敗');
-        }
+         formData.forEach((value, key) => {
+           const input = document.createElement('input');
+                 input.type = 'hidden';
+                 input.name = key;
+                 input.value = value;
+                  tempForm.appendChild(input);
+  });
 
-        alert('感謝你的訊息，我們已收到。');
-        contactForm.reset();
-        closeModal();
-      } catch (error) {
-        console.error('送出表單時發生錯誤：', error);
-        alert('表單送出失敗，請稍後再試。');
-      }
+  document.body.appendChild(tempForm);
+  tempForm.submit();
+  tempForm.remove();
+
+  alert('感謝你的訊息，我們已收到。');
+  contactForm.reset();
+  closeModal();
+} catch (error) {
+  console.error('送出表單時發生錯誤：', error);
+  alert('表單送出失敗，請稍後再試。');
+}
     });
   }
 
