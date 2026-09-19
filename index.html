@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' http://localhost:3000 http://127.0.0.1:3000; object-src 'none'; base-uri 'self'; form-action 'self';"
+    />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <title>個人履歷</title>
+    <meta
+      name="description"
+      content="個人履歷網站，包含自我介紹、職涯軸、技能與作品的靜態展示。"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="lang-switcher" aria-label="Language switcher">
+      <button type="button" class="lang-btn is-active" data-lang="zh-Hant">繁體</button>
+      <button type="button" class="lang-btn" data-lang="en">EN</button>
+      <button type="button" class="lang-btn" data-lang="ja">日本語</button>
+    </div>
+
+    <main id="home">
+      <!-- 區塊一：主介紹與人物照片（簡潔雙欄：一眼看出是誰） -->
+      <section id="about" class="section intro-section">
+        <div class="container intro-grid">
+          <div class="intro-copy" id="intro-content"></div>
+
+          <div class="portrait-card" aria-label="人物照片區">
+            <div class="portrait-orbit" aria-hidden="true">
+              <div class="ring ring-one"></div>
+              <div class="ring ring-two"></div>
+              <div class="ring ring-three"></div>
+              <div class="portrait-photo">
+                <img
+                  class="portrait-image"
+                  src="assets/portrait.jpg"
+                  alt="頭像"
+                  loading="eager"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 區塊二：三段互動圓環，hover 其中一段時會亮起，其他兩段淡化 -->
+      <section id="focus" class="section diagram-section">
+        <div class="container">
+          <div class="diagram-layout">
+            <div class="diagram-shell" aria-label="三大圓形循環導向圖示">
+              <!-- 三個弧形區塊使用同一個圓心，但各自獨立控制狀態；修改這裡可調整區塊數量、位置與內容 -->
+              <svg class="segment-graphic" viewBox="0 0 220 220" aria-hidden="true">
+                <circle
+                  class="segment-arc segment-one"
+                  cx="110"
+                  cy="110"
+                  r="82"
+                  data-title="先搞清楚"
+                  data-text="先看現象、確認條件、找出問題範圍，不急著下結論，先把『到底發生什麼事』弄清楚。"
+                  data-list="看現象, 確認條件, 找出問題範圍, 不急著下結論"
+                  data-panel-side="left"
+                />
+                <circle
+                  class="segment-arc segment-two"
+                  cx="110"
+                  cy="110"
+                  r="82"
+                  data-title="去處理"
+                  data-text="自己能處理就處理，不會就查資料、問人、找工具，重點是知道怎麼把問題往前推。"
+                  data-list="先自行處理, 查資料與工具, 問人或參考案例, 往前推進問題"
+                  data-panel-side="right"
+                />
+                <circle
+                  class="segment-arc segment-three"
+                  cx="110"
+                  cy="110"
+                  r="82"
+                  data-title="驗證／留下"
+                  data-text="處理完不是結束，而是重新確認結果；如果問題解決，就把過程留下來，讓下一次遇到類似問題時不用從零開始。"
+                  data-list="重新確認結果, 保留處理方式, 建立可重複流程, 解決後再遇下一題"
+                  data-panel-side="left"
+                />
+              </svg>
+
+              <!-- 每個標籤對應一個區塊，位置會依區塊分布調整 -->
+              <div class="segment-label label-one" data-role="label"></div>
+              <div class="segment-label label-two" data-role="label"></div>
+              <div class="segment-label label-three" data-role="label"></div>
+
+              <!-- 中央核心會顯示目前被 hover 的專長主題，未 hover 時保持空白 -->
+              <div class="diagram-center" aria-live="polite">
+                <small data-role="core-label"></small>
+                <strong data-role="core-value"></strong>
+              </div>
+            </div>
+
+            <!-- 右側內容面板：由 data-title / data-text / data-list 驅動，hover 任何一段時更新內容 -->
+            <div class="detail-panel" aria-live="polite">
+              <p class="panel-label" id="panel-label">Current Focus</p>
+              <h3 id="panel-title"></h3>
+              <p id="panel-text"></p>
+              <ul id="panel-list"></ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 區塊三：時間軸，使用 details/summary 展開內容；如果要改經歷資料，修改這段區塊即可 -->
+      <section id="experience" class="section timeline-section">
+        <div class="container">
+          <div class="section-header">
+            <h2>職涯經歷</h2>
+            <p>點擊年份可展開詳細內容</p>
+          </div>
+
+          <div class="timeline" id="experience-list"></div>
+        </div>
+      </section>
+
+      <!--
+        區塊四：技能卡片區
+        目前暫不顯示；保留結構與資料，日後確定內容後移除這組註解即可恢復。
+      -->
+      <!--
+      <section id="skills" class="section cards-section">
+        <div class="container">
+          <div class="section-header">
+            <h2>技能分類</h2>
+            <p>每張卡片可對應一個方面的專業能力</p>
+          </div>
+
+          <div class="skill-grid" id="skills-grid"></div>
+        </div>
+      </section>
+      -->
+
+      <!-- 區塊四：預留聯絡區塊，保留底部位置供後續內容使用 -->
+      <section id="contact" class="section bottom-section" aria-label="聯絡區預留位置">
+        <div class="container">
+          <div class="bottom-placeholder" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <!-- 保留底部空白區，讓頁面在右下浮動聯絡按鈕前仍有設計上的留白 -->
+      <section class="contact-space" aria-hidden="true"></section>
+    </main>
+
+    <!-- 固定聯絡按鈕：像聊天機器人一樣，常駐在右下角 -->
+    <button
+      class="floating-contact-button"
+      type="button"
+      aria-label="聯絡我"
+      aria-haspopup="dialog"
+      aria-controls="contact-modal"
+    >
+      <span class="floating-contact-icon">✦</span>
+      <span class="floating-contact-text">聯絡我</span>
+    </button>
+
+    <!-- 對話方塊：點擊聯絡按鈕後顯示，裡面放簡單的聯絡表單 -->
+    <div class="modal" id="contact-modal" role="dialog" aria-modal="true" aria-labelledby="contact-title">
+      <div class="modal-backdrop" data-close="true"></div>
+      <div class="modal-panel">
+        <button class="modal-close" type="button" aria-label="關閉表單">×</button>
+        <h3 id="contact-title"></h3>
+        <form id="contact-form" novalidate>
+          <div id="contact-fields"></div>
+          <button class="submit-btn" type="submit" id="contact-submit"></button>
+        </form>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© <span id="year"></span> <span id="footer-name"></span>. <span id="footer-rights">All rights reserved.</span></p>
+      </div>
+    </footer>
+
+    <script src="data/content.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
