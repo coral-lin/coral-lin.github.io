@@ -11,9 +11,9 @@ window.siteContent = {
         name: 'Coral Lin',
         company: '信業科技股份有限公司',
         companyUrl: 'https://www.sinew.com.tw',
-        summary: '專注於網路、伺服器、郵件系統與 IT 維運管理，具備故障排查、監控與系統優化能力。'
+        summary: '電子與測試背景出發，持續往 Network／Infrastructure 發展的 IT 工作者'
       },
-      coreLabel: '我是誰',
+      coreLabel: '核心準則',
       focusPanelLabel: '目前重點',
       focus: [
         {
@@ -84,6 +84,11 @@ window.siteContent = {
           description: 'HTML、CSS、JavaScript、React、Node.js、Express、REST API、SQLite'
         }
       ],
+      learning: {
+                  title:'目前正努力學習的方向',
+                  lead: '我不一定一開始就知道答案，但我知道怎麼開始找。',
+                  description: '目前正從既有的電子、RD 測試與 MIS 經驗出發，持續往 Network／Infrastructure 發展，同時學習 Full-Stack 技術，透過實際專案把學到的東西做出來、驗證，再留下可以重複使用的方法。'
+                },
       modal: {
         triggerLabel: '聯絡我',
         title: '聯絡我 ',
@@ -131,7 +136,7 @@ window.siteContent = {
         companyUrl: 'https://www.sinew.com.tw',
         summary: 'Focused on network, server, mail systems, and IT operations management with strong troubleshooting, monitoring, and system optimization skills.'
       },
-      coreLabel: 'About Me',
+      coreLabel: 'Core Principles',
       focusPanelLabel: 'Current Focus',
       focus: [
         {
@@ -202,6 +207,11 @@ window.siteContent = {
           description: 'HTML, CSS, JavaScript, React, Node.js, Express, REST API, SQLite'
         }
       ],
+      learning: {
+      title: 'Where I’m Heading',
+      lead: 'I may not always know the answer at the start, but I know how to begin looking for it.',
+      description: 'Building on my background in electronics, RD testing, and MIS, I am continuing to develop toward Network / Infrastructure while also learning Full-Stack technologies. I use practical projects to turn what I learn into working results, verify them, and document reusable methods.'
+      },
       modal: {
         triggerLabel: 'Contact Me',
         title: 'Contact / Collaboration',
@@ -249,7 +259,7 @@ window.siteContent = {
         companyUrl: 'https://www.sinew.com.tw',
         summary: 'ネットワーク、サーバー、メールシステム、IT運用管理に注力し、障害対応、監視、システム最適化の実務を持っています。'
       },
-      coreLabel: '私とは？',
+      coreLabel: '基本方針',
       focusPanelLabel: '現在の重点',
       focus: [
         {
@@ -320,6 +330,11 @@ window.siteContent = {
           description: 'HTML、CSS、JavaScript、React、Node.js、Express、REST API、SQLite'
         }
       ],
+      learning: {
+       title: '現在の学習方針',
+       lead: '最初から答えが分かっているとは限りません。でも、どうやって探し始めるかは分かっています。',
+       description: 'これまでの電子技術、RDテスト、MISの経験を基盤に、Network / Infrastructure の分野へ継続して取り組みながら、Full-Stack 技術も学んでいます。実際のプロジェクトを通して、学んだことを形にし、検証し、繰り返し使える方法として残していくことを大切にしています。'
+      },
       modal: {
         triggerLabel: 'お問い合わせ',
         title: 'お問い合わせ / ご相談',

@@ -286,8 +286,8 @@ summary {
 
 .diagram-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.7fr) minmax(280px, 0.9fr);
-  gap: clamp(2rem, 3vw, 4rem);
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: clamp(1.5rem, 3vw, 3rem);
   align-items: center;
   max-width: 1740px;
   margin: 0 auto;
@@ -303,7 +303,8 @@ summary {
   background: rgba(248, 243, 238, 0.22);
   border: 1px solid rgba(47, 79, 93, 0.12);
   box-shadow: inset 0 0 0 2px rgba(248, 243, 238, 0.25);
-  grid-column: 1;
+  grid-column: 2;
+  grid-row: 1;
 }
 
 .diagram-shell::after {
@@ -327,42 +328,63 @@ summary {
 .segment-arc {
   fill: none;
   stroke-width: 32;
-  stroke-linecap: round;
-  stroke-dasharray: 192 500;
+  stroke-linecap: butt;
+  stroke-dasharray:192 500;
   stroke: var(--arc-color);
-  transform: rotate(var(--rotation));
-  transform-origin: 110px 110px;
   transition: stroke-width 0.22s ease, opacity 0.22s ease, filter 0.22s ease;
   opacity: 1;
   cursor: pointer;
 }
 
-/* 當前區塊被 hover 時，放大並提升亮度 */
+.segment-arrow {
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity 0.22s ease, filter 0.22s ease;
+}
+
+.segment-arrow.is-active {
+  opacity:1 !important;
+  filter:none;
+}
+
+.segment-arrow.is-dimmed {
+   opacity:.32 !important;
+}
+
+.segment-arrow-one {
+  fill: var(--ring-a);
+}
+
+.segment-arrow-two {
+  fill: var(--ring-b);
+}
+
+.segment-arrow-three {
+  fill: var(--ring-c);
+}
+
+
+/* 當前區塊被 hover 時，提升亮度 */
 .segment-arc.is-active {
-  stroke-width: 36;
-  filter: drop-shadow(0 0 14px rgba(118, 158, 154, 0.18));
+  filter:none;
 }
 
 /* 其他兩個區塊在聚焦狀態下會淡化，模擬「只有當前區塊活躍」 */
 .segment-arc.is-dimmed {
   opacity: 0.32;
-  stroke-width: 28;
 }
 
 /* 三個 arc 的角度各自相差約 120°，讓區塊以文字中心為優先，並保留足夠可讀空間 */
 .segment-one {
   --arc-color: var(--ring-a);
-  --rotation: -90deg;
 }
 
 .segment-two {
   --arc-color: var(--ring-b);
-  --rotation: 30deg;
 }
 
 .segment-three {
   --arc-color: var(--ring-c);
-  --rotation: 150deg;
 }
 
 /* 因為文字優先於色塊，標籤位置以視覺中心為主，不再強制追求固定比例 */
@@ -371,7 +393,7 @@ summary {
   z-index: 3;
   left: var(--label-x, 50%);
   top: var(--label-y, 50%);
-  transform: translate(-50%, -50%) rotate(var(--label-rotation, 0deg));
+  transform: translate(-50%, -50%);
   font-weight: 700;
   letter-spacing: 0.08em;
   color: rgba(42, 61, 74, 0.9);
@@ -387,21 +409,18 @@ summary {
 }
 
 .label-one {
-  --label-x: 18%;
-  --label-y: 46%;
-  --label-rotation: -18deg;
+ --label-x: 82.27%;
+--label-y: 68.64%;
 }
 
 .label-two {
-  --label-x: 50%;
-  --label-y: 82%;
-  --label-rotation: 0deg;
+  --label-x: 17.73%;
+  --label-y: 68.64%;
 }
 
 .label-three {
-  --label-x: 82%;
-  --label-y: 46%;
-  --label-rotation: 18deg;
+  --label-x: 50%;
+  --label-y: 12.73%;
 }
 
 .diagram-center {
@@ -432,7 +451,7 @@ summary {
 
 .diagram-center small {
   display: block;
-  font-size: clamp(2.2rem, 2.8vw, 3.2rem);
+  font-size: 2.4rem;
   letter-spacing: 0.04em;
   text-transform: none;
   color: var(--muted);
@@ -440,9 +459,14 @@ summary {
 }
 
 .diagram-center strong {
-  font-size: clamp(1.2rem, 1.8vw, 1.7rem);
-  letter-spacing: 0.02em;
-  font-weight: 700;
+  display: block;
+  width: 90%;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: break-word;
+  line-height: 1.25;
 }
 
 .detail-panel {
@@ -461,8 +485,18 @@ summary {
   justify-content: center;
   max-width: 440px;
   width: min(100%, 440px);
+}
+
+.detail-panel.panel-left {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: end;
+}
+
+.detail-panel.panel-right {
+  grid-column: 3;
+  grid-row: 1;
   justify-self: start;
-  grid-column: 2;
 }
 
 .detail-panel.visible {
@@ -477,6 +511,16 @@ summary {
     gap: 1.5rem;
     transform: none;
   }
+ .diagram-shell {
+    grid-column: 1;
+  }
+
+  .detail-panel.panel-left,
+  .detail-panel.panel-right {
+    grid-column: 1;
+    grid-row: auto;
+    justify-self: center;
+  }
 
   .detail-panel {
     max-width: 520px;
@@ -487,7 +531,6 @@ summary {
 
 @media (max-width: 700px) {
   .intro-grid {
-    grid-template-columns: 1fr;
     gap: 1.5rem;
   }
 
@@ -497,17 +540,14 @@ summary {
     align-items: center;
   }
 
-  .diagram-shell {
-    width: min(320px, 82vw);
+  .diagram-center small {
+    font-size: 1.35rem;
+    line-height: 1.2;
   }
 
   .segment-label {
     font-size: 0.8rem;
   }
-
-  .label-one { left: 22%; top: 38%; }
-  .label-two { left: 74%; top: 72%; }
-  .label-three { left: 36%; top: 18%; }
 
   .diagram-center {
     inset: 26%;
@@ -517,7 +557,6 @@ summary {
     font-size: 0.68rem;
   }
 }
-
 .panel-label {
   margin-bottom: 0.65rem;
   color: var(--muted);
@@ -783,28 +822,18 @@ summary {
   line-height: 1.7;
 }
 
-.bottom-section {
-  padding-top: 1rem;
-}
+.learning-content {
+  width: min(1200px, 100%);
+  margin: 0 auto;
 
-.bottom-placeholder {
   background: rgba(248, 243, 238, 0.72);
   border: 1px dashed rgba(47, 79, 93, 0.2);
   border-radius: 1.2rem;
-  padding: 3rem 2rem;
-  text-align: center;
-  color: var(--muted);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.7rem;
+  padding: 3rem 2.5rem;
 }
 
-.bottom-placeholder p {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--primary);
-  margin-bottom: 0.5rem;
+.bottom-section {
+  padding-top: 1rem;
 }
 
 .contact-space {
@@ -851,6 +880,7 @@ summary {
 
 .floating-contact-button {
   position: fixed;
+  isolation: isolate;
   right: clamp(1rem, 2vw, 2rem);
   bottom: clamp(1rem, 2vw, 2rem);
   z-index: 40;
@@ -868,14 +898,13 @@ summary {
 .floating-contact-button::after {
   content: "";
   position: absolute;
-  left: 1.2rem;
-  bottom: -0.45rem;
-  width: 1rem;
-  height: 1rem;
-  background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
-  transform: rotate(45deg);
-  border-radius: 0.2rem;
-  z-index: -1;
+  right: 1.2rem;
+  bottom: -0.82rem;
+  width: 1.5rem;
+  height: 0.9rem;
+  background: #648d89;;  clip-path: polygon(0 0, 100% 0, 58% 100%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .floating-contact-icon {
@@ -1085,10 +1114,10 @@ summary {
 @media (max-width: 768px) {
   .nav-links {
     display: none;
+    
   }
 
-  .intro-grid,
-  .diagram-layout {
+  .intro-grid{
     grid-template-columns: 1fr;
   }
 
@@ -1111,5 +1140,26 @@ summary {
 
   .timeline-body {
     padding-left: 1.4rem;
+  }
+
+ /* 新箭頭：使用 220 × 220 SVG 座標系 */
+ .segment-graphic .segment-arrow-one {
+  display: block !important;
+  fill: var(--ring-a) !important;
+  stroke: none !important;
+  
+  }
+
+ .segment-graphic .segment-arrow-two {
+  display: block !important;
+  fill: var(--ring-b) !important;
+  stroke: none !important;
+ 
+  }
+
+ .segment-graphic .segment-arrow-three {
+  display: block !important;
+  fill: var(--ring-c) !important;
+  stroke: none !important;
   }
 }

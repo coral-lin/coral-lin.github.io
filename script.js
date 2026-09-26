@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const diagramCenterTitle = document.querySelector('[data-role="core-value"]');
   const diagramCoreLabel = document.querySelector('[data-role="core-label"]');
   const segments = document.querySelectorAll('.segment-arc');
+  const segmentArrows = document.querySelectorAll('.segment-arrow');
   const focusLabels = document.querySelectorAll('[data-role="label"]');
   const contactApiUrl = 'https://script.google.com/macros/s/AKfycbwDIv72NvyRqUI8Szu-lcW8AC2xUBh2T2A9gv_ZBnkBRKU34QHX7nlBEfPFA0NYUPA/exec';
   function escapeHtml(text) {
@@ -268,13 +269,20 @@ document.addEventListener('DOMContentLoaded', () => {
       const label = focusLabels[index];
       if (!segment || !label) return;
 
-      segment.dataset.title = item.title;
-      segment.dataset.text = item.text;
-      segment.dataset.list = item.list.join(',');
+
       label.textContent = item.title;
     });
-  }
+    const learningContent = pageContent.learning;
 
+    if (learningContent) {
+      document.querySelectorAll('[data-learning]').forEach((element) => {
+         const key = element.dataset.learning;
+         if (learningContent[key] !== undefined) {
+            element.textContent = learningContent[key];
+          }
+       });
+     }
+   }
   function applyFocusItems(items) {
     segments.forEach((segment, index) => {
       const item = items[index];
@@ -305,6 +313,12 @@ document.addEventListener('DOMContentLoaded', () => {
       item.classList.toggle('is-active', isCurrent);
       item.classList.toggle('is-dimmed', Boolean(activeSegment) && !isCurrent);
     });
+     
+    segmentArrows.forEach((arrow, index) => {
+      const segment = segments[index];
+      arrow.classList.toggle('is-active', segment === activeSegment);
+     arrow.classList.toggle('is-dimmed', activeSegment && segment !== activeSegment);
+    });
 
     if (diagramCenterTitle) {
       const nextTitle = activeSegment ? (activeSegment.dataset.title || '') : '';
@@ -314,28 +328,46 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updatePanel(segment) {
-    if (!segment) return;
+  if (!segment) return;
 
-    const title = segment.dataset.title || '';
-    const text = segment.dataset.text || '內容說明';
-    const list = (segment.dataset.list || '').split(',').map((item) => item.trim()).filter(Boolean);
+  const index = Array.from(segments).indexOf(segment);
+  const item = content?.focus?.[index];
 
-    if (panelTitle) panelTitle.textContent = title;
-    if (panelText) panelText.textContent = text;
-    if (panelList) {
-      panelList.replaceChildren();
-      list.forEach((item) => {
-        const li = document.createElement('li');
-        li.textContent = item;
-        panelList.appendChild(li);
-      });
-    }
-    if (diagramCenterTitle) {
-      diagramCenterTitle.textContent = title || '';
-      diagramCenterTitle.parentElement?.classList.toggle('is-visible', Boolean(title));
-    }
-    if (panel) panel.classList.add('visible');
+  if (!item) return;
+
+  const title = item.title || '';
+  const text = item.text || '內容說明';
+  const list = Array.isArray(item.list) ? item.list : [];
+
+  const panelSide = segment.dataset.panelSide || 'right';
+
+  if (panelTitle) panelTitle.textContent = title;
+  if (panelText) panelText.textContent = text;
+
+  if (panelList) {
+    panelList.replaceChildren();
+
+    list.forEach((item) => {
+      const li = document.createElement('li');
+      li.textContent = item;
+      panelList.appendChild(li);
+    });
   }
+
+  if (diagramCenterTitle) {
+    diagramCenterTitle.textContent = title || '';
+    diagramCenterTitle.parentElement?.classList.toggle(
+      'is-visible',
+      Boolean(title)
+    );
+  }
+
+  if (panel) {
+    panel.classList.remove('panel-left', 'panel-right');
+    panel.classList.add(`panel-${panelSide}`);
+    panel.classList.add('visible');
+  }
+}
 
   function hidePanel() {
     if (panel) panel.classList.remove('visible');
