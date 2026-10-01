@@ -29,9 +29,16 @@
 
         <div class="portrait-card" aria-label="人物照片區">
           <div class="portrait-orbit" aria-hidden="true">
-            <div class="ring ring-one"></div>
+          <!--<div class="ring ring-one"></div>
             <div class="ring ring-two"></div>
-            <div class="ring ring-three"></div>
+            <div class="ring ring-three"></div>-->
+            <svg class="portrait-orbits" viewBox="0 0 100 100" aria-hidden="true">
+              <ellipse class="orbit orbit-one" cx="50" cy="50" rx="44" ry="44" />
+              <ellipse class="orbit orbit-two" cx="50" cy="50" rx="40" ry="40" />
+              <ellipse class="orbit orbit-three" cx="50" cy="50" rx="36" ry="36" />
+              <ellipse class="orbit orbit-four" cx="50" cy="50" rx="32" ry="32" />
+   
+            </svg>        
             <div class="portrait-photo">
               <img class="portrait-image" src="assets/portrait.jpg" alt="頭像" loading="eager" />
             </div>
@@ -125,9 +132,6 @@
      </div>
     </section>
 
-    <!-- 保留底部空白區，讓頁面在右下浮動聯絡按鈕前仍有設計上的留白 -->
-    <section class="contact-space" aria-hidden="true"></section>
-  </main>
 
   <!-- 固定聯絡按鈕：像聊天機器人一樣，常駐在右下角 -->
   <button class="floating-contact-button" type="button" aria-label="聯絡我" aria-haspopup="dialog"

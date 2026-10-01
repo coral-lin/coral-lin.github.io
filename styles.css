@@ -31,7 +31,18 @@ html {
 
 body {
   font-family: "Segoe UI", Arial, sans-serif;
-  background: var(--bg);
+  background:
+    radial-gradient(
+      circle at 78% 18%,
+      rgba(120, 159, 153, 0.22),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 16% 72%,
+      rgba(201, 121, 90, 0.12),
+      transparent 28%
+    ),
+    var(--bg);
   color: var(--text);
   line-height: 1.7;
 }
@@ -90,6 +101,43 @@ summary {
   padding: 5rem 0;
 }
 
+/* 四個主要區塊的微妙色彩層次 */
+#about {
+  background:
+    radial-gradient(
+      circle at 78% 20%,
+      rgba(120, 159, 153, 0.10),
+      transparent 38%
+    );
+}
+
+#focus {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(120, 159, 153, 0.035),
+      rgba(120, 159, 153, 0.07)
+    );
+}
+
+#skills {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(201, 121, 90, 0.025),
+      rgba(201, 121, 90, 0.065)
+    );
+}
+
+#learning {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(137, 169, 192, 0.025),
+      rgba(137, 169, 192, 0.065)
+    );
+}
+
 .section > .container {
   padding-inline: clamp(1.25rem, 2vw, 3rem);
 }
@@ -146,7 +194,7 @@ summary {
 
 .intro-grid {
   display: grid;
-  grid-template-columns: minmax(300px, 1fr) minmax(600px, 2.7fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: clamp(2rem, 4vw, 5rem);
   align-items: center;
   max-width: 1760px;
@@ -192,7 +240,7 @@ summary {
 }
 
 .intro-copy h1 {
-  font-size: clamp(2.6rem, 4vw, 4.2rem);
+  font-size: clamp(2.8rem, 4.3vw, 4.6rem);
   line-height: 1.05;
   margin-bottom: 0.8rem;
   letter-spacing: -0.05em;
@@ -200,8 +248,8 @@ summary {
 
 .intro-copy p {
   color: var(--muted);
-  font-size: 1.08rem;
-  max-width: 420px;
+  font-size: clamp(1.15rem, 1.5vw, 1.3rem);
+  max-width: 500px;
 }
 
 .portrait-card {
@@ -216,7 +264,7 @@ summary {
 
 .portrait-orbit {
   position: relative;
-  width: min(980px, 100%);
+  width: min(580px, 100%);
   aspect-ratio: 1;
   margin: 0 auto 0.5rem;
   display: grid;
@@ -228,33 +276,154 @@ summary {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 2px solid rgba(47, 79, 93, 0.18);
+  border: 4px solid rgba(47, 79, 93, 0.18);
   z-index: 1;
 }
 
-.ring-one {
-  transform: rotate(18deg);
-  border-top-color: var(--secondary);
-  border-left-color: transparent;
-  border-right-color: transparent;
-  inset: 10%;
+.portrait-orbits {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: visible;
 }
 
-.ring-two {
-  transform: rotate(-25deg);
-  border-left-color: var(--accent);
-  border-bottom-color: transparent;
-  inset: 18%;
+.orbit {
+  fill: none;
+  stroke-width: 0.2;
+  stroke-linecap: round;
+}
+ 
+.orbit-one {
+  stroke: var(--secondary);
+  stroke-dasharray: 132 160;
+  stroke-dashoffset: 0;
+  transform: rotate(320deg);
+  transform-origin: 50% 50%;
 }
 
-.ring-three {
-  transform: rotate(32deg);
-  border-right-color: var(--primary);
-  border-bottom-color: transparent;
-  inset: 24%;
+.orbit-two {
+  stroke: var(--accent);
+  stroke-dasharray: 115 175;
+  stroke-dashoffset: 0;
+  transform: rotate(90deg);
+  transform-origin: 50% 50%;
+}
+
+.orbit-three {
+  stroke: var(--primary);
+  stroke-dasharray: 100 190;
+  stroke-dashoffset: 0;
+  transform: rotate(180deg);
+  transform-origin: 50% 50%;
+}
+
+.orbit-four {
+  stroke: var(--accent-cool);
+  stroke-dasharray: 140 150;
+  stroke-dashoffset: 0;
+  transform: rotate(270deg);
+  transform-origin: 50% 50%;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .orbit-one {
+    animation: orbit-spin-one 45s linear infinite;
+  }
+
+  .orbit-two {
+    animation: orbit-spin-two 54s linear infinite;
+  }
+
+  .orbit-three {
+    animation: orbit-spin-three 68s linear infinite;
+    
+  }
+
+  .orbit-four {
+    animation: orbit-spin-four 84s linear infinite;
+  }
+}
+
+@keyframes orbit-spin-one {
+  from {
+    transform: rotate(320deg);
+  }
+  to {
+    transform: rotate(680deg);
+  }
+}
+
+@keyframes orbit-spin-two {
+  from {
+    transform: rotate(90deg);
+  }
+  to {
+    transform: rotate(450deg);
+  }
+}
+
+@keyframes orbit-spin-three {
+  from {
+    transform: rotate(180deg);
+  }
+  to {
+    transform: rotate(540deg);
+  }
+}
+
+@keyframes orbit-spin-four {
+  from {
+    transform: rotate(270deg);
+  }
+  to {
+    transform: rotate(630deg);
+  }
+}
+
+@keyframes orbit-flow-one {
+  from {
+    stroke-dashoffset: 0;
+  }
+
+  to {
+    stroke-dashoffset: -290;
+  }
+}
+
+@keyframes orbit-flow-two {
+  from {
+    stroke-dashoffset: 0;
+  }
+
+  to {
+    stroke-dashoffset: -290;
+  }
+}
+
+@keyframes orbit-flow-three {
+  from {
+    stroke-dashoffset: 0;
+  }
+
+  to {
+    stroke-dashoffset: -290;
+  }
+}
+
+@keyframes orbit-flow-four {
+  from {
+    stroke-dashoffset: 0;
+  }
+
+  to {
+    stroke-dashoffset: -290;
+  }
 }
 
 .portrait-photo {
+
   position: relative;
   z-index: 3;
   width: 58%;
@@ -267,7 +436,8 @@ summary {
   padding: 0;
   box-shadow: 0 10px 30px rgba(31, 61, 77, 0.1);
   overflow: hidden;
-}
+ }
+
 
 .portrait-image {
   width: 100%;
@@ -279,6 +449,7 @@ summary {
   transform: scale(1.06);
   transform-origin: center;
 }
+
 
 .diagram-section {
   background: rgba(248, 243, 238, 0.22);
@@ -832,9 +1003,6 @@ summary {
   padding: 3rem 2.5rem;
 }
 
-.bottom-section {
-  padding-top: 1rem;
-}
 
 .contact-space {
   height: clamp(7rem, 10vw, 11rem);
