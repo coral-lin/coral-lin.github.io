@@ -91,8 +91,14 @@ window.siteContent = {
                 },
       modal: {
         triggerLabel: '聯絡我',
-        title: '聯絡我 ',
+        title: '聯絡我',
         submitLabel: '送出',
+        messages: {
+        required: '請完整填寫姓名、電子郵件、訊息內容與聯絡事由。',
+        invalidEmail: '請輸入有效的電子郵件格式。',
+        success: '感謝你的訊息，我們已收到。',
+        error: '表單送出失敗，請稍後再試。'
+        },
         fields: [
           { label: '姓名', name: 'name', type: 'text', placeholder: '請輸入你的姓名', required: true },
           { label: '電子郵件', name: 'email', type: 'email', placeholder: '請輸入電子郵件', required: true },
@@ -118,7 +124,9 @@ window.siteContent = {
         skillsDescription: '每張卡片對應一個方面的專業能力',
         contactSectionLabel: '聯絡區預留位置',
         modalCloseLabel: '關閉表單',
-        footerRights: '保留所有權利。'
+        footerRights: '保留所有權利。',
+        companyLinkLabel: '前往官網',
+        currentRoleLabel: '目前職務'
       },
       footer: {
         name: 'Coral Lin'
@@ -216,6 +224,12 @@ window.siteContent = {
         triggerLabel: 'Contact Me',
         title: 'Contact / Collaboration',
         submitLabel: 'Submit',
+        messages: {
+        required: 'Please complete your name, email, message, and reason for contact.',
+        invalidEmail: 'Please enter a valid email address.',
+        success: 'Thank you for your message. We have received it.',
+        error: 'Failed to submit the form. Please try again later.'
+       },
         fields: [
           { label: 'Name', name: 'name', type: 'text', placeholder: 'Enter your name', required: true },
           { label: 'Email', name: 'email', type: 'email', placeholder: 'Enter your email', required: true },
@@ -241,7 +255,9 @@ window.siteContent = {
         skillsDescription: 'Each card represents an area of professional expertise.',
         contactSectionLabel: 'Contact section placeholder',
         modalCloseLabel: 'Close form',
-        footerRights: 'All rights reserved.'
+        footerRights: 'All rights reserved.',
+        companyLinkLabel: 'Visit company website',
+        currentRoleLabel: 'Current Position',
       },
       footer: {
         name: 'Coral Lin'
@@ -339,6 +355,12 @@ window.siteContent = {
         triggerLabel: 'お問い合わせ',
         title: 'お問い合わせ / ご相談',
         submitLabel: '送信',
+        messages: {
+        required: '氏名、メールアドレス、メッセージ、お問い合わせ内容をすべて入力してください。',
+        invalidEmail: '有効なメールアドレスを入力してください。',
+        success: 'お問い合わせありがとうございます。メッセージを受け付けました。',
+        error: 'フォームの送信に失敗しました。しばらくしてからもう一度お試しください。'
+        },
         fields: [
           { label: '氏名', name: 'name', type: 'text', placeholder: 'お名前を入力してください', required: true },
           { label: 'メールアドレス', name: 'email', type: 'email', placeholder: 'メールアドレスを入力してください', required: true },
@@ -364,7 +386,9 @@ window.siteContent = {
         skillsDescription: '各カードは専門スキルの領域を表しています。',
         contactSectionLabel: 'お問い合わせセクションのプレースホルダー',
         modalCloseLabel: 'フォームを閉じる',
-        footerRights: 'All rights reserved.'
+        footerRights: 'All rights reserved.',
+        companyLinkLabel: '会社公式サイトへ',
+        currentRoleLabel: '現在の職務'
       },
       footer: {
         name: 'Coral Lin'

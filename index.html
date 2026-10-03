@@ -15,6 +15,7 @@
 </head>
 
 <body>
+  <!-- 語言切換按鈕。如果要增加或修改可切換的語言，先修改這裡，再確認 content.js 是否有對應語言資料。 -->
   <div class="lang-switcher" aria-label="Language switcher">
     <button type="button" class="lang-btn is-active" data-lang="zh-Hant">繁體</button>
     <button type="button" class="lang-btn" data-lang="en">EN</button>
@@ -22,22 +23,19 @@
   </div>
 
   <main id="home">
-    <!-- 區塊一：主介紹與人物照片（簡潔雙欄：一眼看出是誰） -->
+    <!-- 區塊一：首頁主介紹與人物照片。文字內容由 content.js 帶入。 -->
     <section id="about" class="section intro-section">
       <div class="container intro-grid">
         <div class="intro-copy" id="intro-content"></div>
 
         <div class="portrait-card" aria-label="人物照片區">
           <div class="portrait-orbit" aria-hidden="true">
-          <!--<div class="ring ring-one"></div>
-            <div class="ring ring-two"></div>
-            <div class="ring ring-three"></div>-->
+            <!-- 頭像外圍的四層 SVG 軌道。如果要調整軌道大小，修改各 ellipse 的 rx / ry。 -->
             <svg class="portrait-orbits" viewBox="0 0 100 100" aria-hidden="true">
               <ellipse class="orbit orbit-one" cx="50" cy="50" rx="44" ry="44" />
               <ellipse class="orbit orbit-two" cx="50" cy="50" rx="40" ry="40" />
               <ellipse class="orbit orbit-three" cx="50" cy="50" rx="36" ry="36" />
               <ellipse class="orbit orbit-four" cx="50" cy="50" rx="32" ry="32" />
-   
             </svg>        
             <div class="portrait-photo">
               <img class="portrait-image" src="assets/portrait.jpg" alt="頭像" loading="eager" />
@@ -52,34 +50,34 @@
       <div class="container">
         <div class="diagram-layout">
           <div class="diagram-shell" aria-label="三大圓形循環導向圖示">
-            <!-- 三個弧形區塊使用同一個圓心，但各自獨立控制狀態；修改這裡可調整區塊數量、位置與內容 -->
+
+            <!-- 循環圖的三個弧形區塊。這裡主要控制圓環的形狀與位置。如果要修改顯示文字或詳細內容，請到 content.js 找 focus。 -->
             <svg class="segment-graphic" viewBox="0 0 220 220" aria-hidden="true">
               <g transform="rotate(45 110 110)">
-                <!--<circle class="segment-arc segment-one" cx="110" cy="110" r="82" data-title="先搞清楚"-->
+                <!--SVG 路徑說明：d = path 的繪圖指令M = Move，移動到座標A = Arc，畫弧線L = Line，畫直線Z = Close，關閉路徑
+                                 A 的格式：A rx ry rotation large-arc-flag sweep-flag x y其中 rx / ry 控制弧線大小，最後的 x / y 是弧線終點。-->
                 <path class="segment-arc segment-one" d="M 148.50 37.60 A 82 82 0 0 1 181 151"  data-panel-side="right" />
                 <path class="segment-arc segment-two" d="M 153.45 179.54 A 82 82 0 0 1 39 151" data-panel-side="left" />
                 <path class="segment-arc segment-three" d="M 28.05 112.86 A 82 82 0 0 1 110 28" data-panel-side="left" />
-              
                <!-- 新的同座標系箭頭 -->
                 <path class="segment-arrow segment-arrow-one"  d="M 180.5 135 L 195 135 L 195 127 L 219 151 L 195 175 L 195 167 L 180.22 167 Z" transform="rotate(117.5 181 151)" />
                 <path class="segment-arrow segment-arrow-two" d="M 38.71 135 L 25 135 L 25 127 L 1 151 L 25 175 L 25 167 L 39.71 167 Z" transform="rotate(62.5 39 151)" />
                 <path class="segment-arrow segment-arrow-three" d="M 109.82 12 L 123 12 L 123 5 L 144 28 L 123 51 L 123 44 L 109.82 44 Z" transform="rotate(-0.3 110 28)"/> 
               </g>
-            </svg>
-            
-            <!-- 每個標籤對應一個區塊，位置會依區塊分布調整 -->
+            </svg>    
+
+            <!-- 三個圓環的文字標籤。顯示內容由 content.js 的 focus.title 帶入； 如果要修改這些文字，請到 content.js 找 focus。 -->
             <div class="segment-label label-one" data-role="label"></div>
             <div class="segment-label label-two" data-role="label"></div>
             <div class="segment-label label-three" data-role="label"></div>
-
-            <!-- 中央核心會顯示目前被 hover 的專長主題，未 hover 時保持空白 -->
+             <!-- 循環圖中央的目前選取內容。上方顯示分類標題，下方顯示目前選中的主題。 -->
             <div class="diagram-center" aria-live="polite">
               <small data-role="core-label"></small>
               <strong data-role="core-value"></strong>
             </div>
           </div>
 
-          <!-- 右側內容面板：由 data-title / data-text / data-list 驅動，hover 任何一段時更新內容 -->
+         <!-- 循環圖的詳細說明區。內容會從 content.js 的 focus 資料帶入。滑鼠移到圓環，或手機點擊圓環後，這裡會顯示對應內容。 -->
           <div class="detail-panel" aria-live="polite">
             <p class="panel-label" id="panel-label">Current Focus</p>
             <h3 id="panel-title"></h3>
@@ -90,7 +88,7 @@
       </div>
     </section>
 
-    <!-- 區塊三：時間軸，使用 details/summary 展開內容；如果要改經歷資料，修改這段區塊即可 -->
+    <!-- 區塊三：職涯經歷。點擊年份可以展開／收合詳細內容。如果要修改經歷資料，請到 content.js 找 experience。 -->
     <section id="experience" class="section timeline-section">
       <div class="container">
         <div class="section-header">
@@ -117,7 +115,6 @@
    <section id="learning" class="section bottom-section" aria-label="目前主要學習">
      <div class="container">
         <div class="learning-content">
-
           <div class="learning-heading">
             <p class="section-kicker" data-learning="kicker"></p>
             <h2 data-learning="title"></h2>
@@ -131,7 +128,7 @@
         </div>
      </div>
     </section>
-
+</main>
 
   <!-- 固定聯絡按鈕：像聊天機器人一樣，常駐在右下角 -->
   <button class="floating-contact-button" type="button" aria-label="聯絡我" aria-haspopup="dialog"
@@ -140,19 +137,21 @@
     <span class="floating-contact-text">聯絡我</span>
   </button>
 
-  <!-- 對話方塊：點擊聯絡按鈕後顯示，裡面放簡單的聯絡表單 -->
+  <!-- 聯絡表單 Modal：點擊固定聯絡按鈕後開啟。 包含背景遮罩、關閉按鈕與聯絡表單。 -->
   <div class="modal" id="contact-modal" role="dialog" aria-modal="true" aria-labelledby="contact-title">
     <div class="modal-backdrop" data-close="true"></div>
+  <!-- 點擊背景區域也可以關閉 Modal -->
     <div class="modal-panel">
       <button class="modal-close" type="button" aria-label="關閉表單">×</button>
       <h3 id="contact-title"></h3>
       <form id="contact-form" novalidate>
+        <!-- 表單欄位由 script.js 動態產生 -->
         <div id="contact-fields"></div>
         <button class="submit-btn" type="submit" id="contact-submit"></button>
       </form>
     </div>
   </div>
-
+<!-- 頁尾：年份、名稱與版權文字由 JavaScript / content.js 帶入。 -->
   <footer class="site-footer">
     <div class="container">
       <p>© <span id="year"></span> <span id="footer-name"></span>. <span id="footer-rights">All rights reserved.</span>
@@ -162,7 +161,5 @@
 
   <script src="data/content.js"></script>
   <script src="script.js"></script>
-  <iframe name="hiddenFormFrame" style="display:none;"></iframe>
 </body>
-
 </html>

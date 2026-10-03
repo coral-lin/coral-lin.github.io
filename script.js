@@ -1,12 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // 前端只負責顯示與互動，不直接碰資料庫。
-  // 真正的資料來源會透過 API 回傳，這裡先用假資料 API 取代。
+// 網站上的文字與履歷內容主要放在 content.js。
+// 如果要修改網站上的文字，先到 content.js 找對應的內容。
+// 聯絡表單則是送到 Google Apps Script，再由後端處理。
   const yearEl = document.getElementById('year');
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
   }
 
-  const browserLocale = navigator.language || navigator.languages?.[0] || 'zh-Hant';
+/*const browserLocale = navigator.language || navigator.languages?.[0] || 'zh-Hant';
   const supportedLocales = Object.keys(window.siteContent?.texts || {});
   const preferredLocale = supportedLocales.includes(browserLocale)
     ? browserLocale
@@ -14,7 +15,58 @@ document.addEventListener('DOMContentLoaded', () => {
       ? 'zh-Hant'
       : supportedLocales[0];
 
-  let currentLocale = preferredLocale;
+  let currentLocale = preferredLocale;*/
+  const browserLocale =
+  navigator.language ||
+  navigator.languages?.[0] ||
+  'zh-Hant';
+
+  const supportedLocales = Object.keys(window.siteContent?.texts || {});
+
+  function resolveBrowserLocale(locale) {
+    // 1. 先完整比對，例如 ja、en、zh-Hant
+    if (supportedLocales.includes(locale)) {
+        return locale;
+  }
+
+  // 2. 再比對語言前綴，例如：
+  //    en-US → en
+  //    ja-JP → ja
+  //    zh-TW → zh-Hant
+  const language = locale.split('-')[0].toLowerCase();
+
+  if (language === 'zh') {
+    const traditionalChineseLocale = supportedLocales.find(
+      (supportedLocale) =>
+        supportedLocale.toLowerCase() === 'zh-hant'
+    );
+
+    if (traditionalChineseLocale) {
+      return traditionalChineseLocale;
+    }
+  }
+
+  const languageLocale = supportedLocales.find(
+    (supportedLocale) =>
+      supportedLocale.split('-')[0].toLowerCase() === language
+  );
+
+  if (languageLocale) {
+    return languageLocale;
+  }
+
+  // 3. 最後 fallback 到繁體中文
+  if (supportedLocales.includes('zh-Hant')) {
+    return 'zh-Hant';
+  }
+
+  return supportedLocales[0];
+}
+
+const preferredLocale = resolveBrowserLocale(browserLocale);
+
+let currentLocale = preferredLocale;
+  
   let content = window.siteContent?.texts?.[currentLocale] || window.siteContent?.texts?.['zh-Hant'];
 
   const panel = document.querySelector('.detail-panel');
@@ -37,24 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
       .replace(/'/g, '&#039;');
   }
 
-  const fallbackFocusItems = window.siteContent?.texts?.['zh-Hant']?.focus || [
-    {
-      title: '先搞清楚',
-      text: '先看現象、確認條件、找出問題範圍，不急著下結論，先把「到底發生什麼事」弄清楚。',
-      list: ['看現象', '確認條件', '找出問題範圍', '不急著下結論']
-    },
-    {
-      title: '去處理',
-      text: '自己能處理就處理，不會就查資料、問人、找工具，重點是知道怎麼把問題往前推。',
-      list: ['先自行處理', '查資料與工具', '問人或參考案例', '往前推進問題']
-    },
-    {
-      title: '驗證／留下',
-      text: '處理完不是就算結束，而是重新確認結果；如果問題解決，就把過程留下來，讓下一次遇到類似問題時不用從零開始。',
-      list: ['重新確認結果', '保留處理方式', '建立可重複流程', '解決後再遇下一題']
-    }
-  ];
-
   function renderIntro() {
     const introContainer = document.getElementById('intro-content');
     if (!introContainer || !content?.intro) return;
@@ -67,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         href="${escapeHtml(content.intro.companyUrl)}"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="前往${escapeHtml(content.intro.company)}官網"
+        aria-label="${escapeHtml(content.intro.company)} - ${escapeHtml(content.ui.companyLinkLabel)}"
       >
         ${escapeHtml(content.intro.company)}
       </a>
@@ -261,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (panelLabel) {
-      panelLabel.textContent = pageContent.focusPanelLabel || 'Current Focus';
+      panelLabel.textContent = pageContent.focusPanelLabel || '';
     }
 
     pageContent.focus.forEach((item, index) => {
@@ -283,29 +317,6 @@ document.addEventListener('DOMContentLoaded', () => {
        });
      }
    }
-  function applyFocusItems(items) {
-    segments.forEach((segment, index) => {
-      const item = items[index];
-      if (!item) return;
-
-      segment.dataset.title = item.title;
-      segment.dataset.text = item.text;
-      segment.dataset.list = item.list.join(',');
-    });
-
-    hidePanel();
-  }
-
-  // 先從假資料 API 取得 focus 區塊內容；若當前是直接開啟檔案或後端未啟動，則改用本地預設資料。
-  async function loadFocusData() {
-    const isFileProtocol = window.location.protocol === 'file:';
-
-    if (isFileProtocol) {
-      applyFocusItems(fallbackFocusItems);
-      }
-      return;
-    }
-  applyFocusItems(fallbackFocusItems);
 
   function setFocusState(activeSegment) {
     segments.forEach((item) => {
@@ -317,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
     segmentArrows.forEach((arrow, index) => {
       const segment = segments[index];
       arrow.classList.toggle('is-active', segment === activeSegment);
-     arrow.classList.toggle('is-dimmed', activeSegment && segment !== activeSegment);
+      arrow.classList.toggle('is-dimmed', activeSegment && segment !== activeSegment);
     });
 
     if (diagramCenterTitle) {
@@ -326,6 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
       diagramCenterTitle.parentElement?.classList.toggle('is-visible', Boolean(activeSegment));
     }
   }
+  
 
   function updatePanel(segment) {
   if (!segment) return;
@@ -336,7 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!item) return;
 
   const title = item.title || '';
-  const text = item.text || '內容說明';
+  const text = item.text || '';
   const list = Array.isArray(item.list) ? item.list : [];
 
   const panelSide = segment.dataset.panelSide || 'right';
@@ -386,6 +398,18 @@ document.addEventListener('DOMContentLoaded', () => {
     segment.addEventListener('focus', () => {
       setFocusState(segment);
       updatePanel(segment);
+    });
+
+    segment.addEventListener('click', () => {
+      const isActive = segment.classList.contains('is-active');
+
+      if (isActive) {
+        setFocusState(null);
+        hidePanel();
+      } else {
+        setFocusState(segment);
+        updatePanel(segment);
+      }
     });
 
     segment.addEventListener('mouseleave', () => {
@@ -460,22 +484,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const sanitizedReason = payload.reason.replace(/[<>]/g, '').slice(0, 100);
 
       if (!sanitizedName || !sanitizedEmail || !sanitizedMessage || !sanitizedReason) {
-        alert('請完整填寫姓名、電子郵件與訊息內容。');
+        alert(content.modal.messages.required);
         return;
       }
 
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailPattern.test(sanitizedEmail)) {
-        alert('請輸入有效的電子郵件格式。');
+        alert(content.modal.messages.invalidEmail);
         return;
       }
-
-      const safePayload = {
-        name: sanitizedName,
-        email: sanitizedEmail,
-        message: sanitizedMessage,
-        reason: sanitizedReason
-      };
 
       try {
         const formData = new FormData();
@@ -502,12 +519,12 @@ document.addEventListener('DOMContentLoaded', () => {
   tempForm.submit();
   tempForm.remove();
 
-  alert('感謝你的訊息，我們已收到。');
+  alert(content.modal.messages.success);
   contactForm.reset();
   closeModal();
 } catch (error) {
   console.error('送出表單時發生錯誤：', error);
-  alert('表單送出失敗，請稍後再試。');
+  alert(content.modal.messages.error);
 }
     });
   }
@@ -524,9 +541,12 @@ document.addEventListener('DOMContentLoaded', () => {
   renderContactForm();
   renderFloatingContactButton();
   renderFooter();
-
+  
   // 先載入 API data，再套用本地語系內容，最後還原初始狀態。
   applyLocaleContent(currentLocale);
-  loadFocusData();
+
+  document.querySelectorAll('.lang-btn').forEach((btn) => {
+    btn.classList.toggle('is-active', btn.dataset.lang === currentLocale);
+});
   setFocusState(null);
 });

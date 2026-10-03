@@ -272,14 +272,6 @@ summary {
   z-index: 0;
 }
 
-.ring {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  border: 4px solid rgba(47, 79, 93, 0.18);
-  z-index: 1;
-}
-
 .portrait-orbits {
   position: absolute;
   inset: 0;
@@ -382,48 +374,7 @@ summary {
   }
 }
 
-@keyframes orbit-flow-one {
-  from {
-    stroke-dashoffset: 0;
-  }
-
-  to {
-    stroke-dashoffset: -290;
-  }
-}
-
-@keyframes orbit-flow-two {
-  from {
-    stroke-dashoffset: 0;
-  }
-
-  to {
-    stroke-dashoffset: -290;
-  }
-}
-
-@keyframes orbit-flow-three {
-  from {
-    stroke-dashoffset: 0;
-  }
-
-  to {
-    stroke-dashoffset: -290;
-  }
-}
-
-@keyframes orbit-flow-four {
-  from {
-    stroke-dashoffset: 0;
-  }
-
-  to {
-    stroke-dashoffset: -290;
-  }
-}
-
 .portrait-photo {
-
   position: relative;
   z-index: 3;
   width: 58%;
@@ -438,7 +389,6 @@ summary {
   overflow: hidden;
  }
 
-
 .portrait-image {
   width: 100%;
   height: 100%;
@@ -446,10 +396,9 @@ summary {
   border-radius: 50%;
   object-fit: cover;
   object-position: center center;
-  transform: scale(1.06);
+  transform: scale(1.2);
   transform-origin: center;
 }
-
 
 .diagram-section {
   background: rgba(248, 243, 238, 0.22);
@@ -500,11 +449,15 @@ summary {
   fill: none;
   stroke-width: 32;
   stroke-linecap: butt;
-  stroke-dasharray:192 500;
+  stroke-dasharray: 192 500;
   stroke: var(--arc-color);
   transition: stroke-width 0.22s ease, opacity 0.22s ease, filter 0.22s ease;
   opacity: 1;
   cursor: pointer;
+}
+
+.segment-arc:focus {
+  outline: none;
 }
 
 .segment-arrow {
@@ -514,12 +467,12 @@ summary {
 }
 
 .segment-arrow.is-active {
-  opacity:1 !important;
+  opacity: 1 !important;
   filter:none;
 }
 
 .segment-arrow.is-dimmed {
-   opacity:.32 !important;
+   opacity: 0.32 !important;
 }
 
 .segment-arrow-one {
@@ -545,7 +498,7 @@ summary {
   opacity: 0.32;
 }
 
-/* 三個 arc 的角度各自相差約 120°，讓區塊以文字中心為優先，並保留足夠可讀空間 */
+/* 三個弧線分別指定對應顏色，實際弧線形狀與角度由 HTML 的 SVG path 控制 */
 .segment-one {
   --arc-color: var(--ring-a);
 }
@@ -1003,12 +956,6 @@ summary {
   padding: 3rem 2.5rem;
 }
 
-
-.contact-space {
-  height: clamp(7rem, 10vw, 11rem);
-  width: 100%;
-}
-
 .contact-trigger,
 .submit-btn,
 .modal-close,
@@ -1070,7 +1017,8 @@ summary {
   bottom: -0.82rem;
   width: 1.5rem;
   height: 0.9rem;
-  background: #648d89;;  clip-path: polygon(0 0, 100% 0, 58% 100%);
+  background: #648d89; 
+  clip-path: polygon(0 0, 100% 0, 58% 100%);
   pointer-events: none;
   z-index: 0;
 }
@@ -1097,37 +1045,39 @@ summary {
 
 .modal {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  inset: 0;
 
   display: none;
   z-index: 50;
 
-  /*
-   * 寬度依螢幕調整：
-   * 桌面最多 900px
-   * 小螢幕最多使用 90vw
-   */
-  width: min(90vw, 900px);
+  width: 100%;
+  height: 100%;
 }
 
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(16, 24, 31, 0.18);
+
+  background: rgba(16, 24, 31, 0.45);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .modal-panel {
-  position: relative;
+  position: absolute;
   z-index: 1;
-  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  width: min(90vw, 900px);
 
   /*
    * 高度不固定，完全依照表單內容自然顯示
    * 不使用 max-height，也不讓 Modal 自己產生捲軸
    */
-  background: linear-gradient(180deg, #ffffff 0%, #f7faf9 100%);
+  background: var(--surface);
   border-radius: 1.3rem 1.3rem 1.3rem 0.5rem;
   padding: clamp(1.2rem, 2vw, 1.8rem)
            clamp(1rem, 2vw, 1.5rem)
@@ -1196,6 +1146,7 @@ summary {
 
   border: 1px solid rgba(47, 79, 93, 0.2);
   border-radius: 0.8rem;
+  background: var(--surface);
 
   padding: clamp(0.7rem, 1.4vw, 0.9rem);
 
@@ -1234,14 +1185,6 @@ summary {
     font-size: 0.9rem;
   }
 
-  /*
-   * Modal 維持水平＋垂直置中
-   * 不再使用 right / bottom
-   */
-  .modal {
-    width: min(90vw, 520px);
-  }
-
   /* 手機版：表單改成單欄 */
   #contact-fields {
     grid-template-columns: 1fr;
@@ -1259,11 +1202,6 @@ summary {
    ========================= */
 
 @media (max-width: 480px) {
-
-  .modal {
-    width: 92vw;
-  }
-
   .modal-panel {
     padding: 1.2rem 0.9rem 1rem;
   }
@@ -1282,9 +1220,10 @@ summary {
 @media (max-width: 768px) {
   .nav-links {
     display: none;
-    
   }
-
+  .skill-card {
+    min-height: auto;
+  }
   .intro-grid{
     grid-template-columns: 1fr;
   }
@@ -1312,22 +1251,22 @@ summary {
 
  /* 新箭頭：使用 220 × 220 SVG 座標系 */
  .segment-graphic .segment-arrow-one {
-  display: block !important;
-  fill: var(--ring-a) !important;
-  stroke: none !important;
+    display: block !important;
+    fill: var(--ring-a) !important;
+    stroke: none !important;
   
   }
 
  .segment-graphic .segment-arrow-two {
-  display: block !important;
-  fill: var(--ring-b) !important;
-  stroke: none !important;
+    display: block !important;
+    fill: var(--ring-b) !important;
+    stroke: none !important;
  
   }
 
  .segment-graphic .segment-arrow-three {
-  display: block !important;
-  fill: var(--ring-c) !important;
-  stroke: none !important;
+    display: block !important;
+    fill: var(--ring-c) !important;
+    stroke: none !important;
   }
 }
