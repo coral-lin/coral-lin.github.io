@@ -9,7 +9,6 @@ window.siteContent = {
       intro: {
         badge: '網管工程師',
         name: 'Coral Lin',
-        company: '信X科技股份有限公司',
         summary: '電子與測試背景出發，持續往 Network／Infrastructure 發展的 IT 工作者'
       },
       coreLabel: '核心準則',
@@ -125,7 +124,6 @@ window.siteContent = {
         contactSectionLabel: '聯絡區預留位置',
         modalCloseLabel: '關閉表單',
         footerRights: '保留所有權利。',
-        companyLinkLabel: '前往官網',
         currentRoleLabel: '目前職務'
       },
       footer: {
@@ -140,7 +138,6 @@ window.siteContent = {
       intro: {
         badge: 'Network & Infrastructure Engineer',
         name: 'Coral Lin',
-        company: 'X Technology Co., Ltd.',
         summary: 'Focused on network, server, mail systems, and IT operations management with strong troubleshooting, monitoring, and system optimization skills.'
       },
       coreLabel: 'Core Principles',
@@ -167,7 +164,6 @@ window.siteContent = {
           year: '2004',
           role: 'Assistant Engineer',
           title: 'Assistant Engineer',
-          company: 'Cooperation X Electric Co., Ltd.',
           description: 'Sourced suppliers, managed ordering and sample requests, processed PCB circuit fabrication, maintained engraving machines and their control computers, and handled sample soldering repairs and testing.',
           open: false
         },
@@ -256,7 +252,7 @@ window.siteContent = {
         contactSectionLabel: 'Contact section placeholder',
         modalCloseLabel: 'Close form',
         footerRights: 'All rights reserved.',
-        companyLinkLabel: 'Visit company website',
+    
         currentRoleLabel: 'Current Position',
       },
       footer: {
@@ -271,7 +267,6 @@ window.siteContent = {
       intro: {
         badge: 'ネットワーク＆インフラエンジニア',
         name: 'Coral Lin',
-        company: '信x科技株式会社',
         summary: 'ネットワーク、サーバー、メールシステム、IT運用管理に注力し、障害対応、監視、システム最適化の実務を持っています。'
       },
       coreLabel: '基本方針',
@@ -387,7 +382,7 @@ window.siteContent = {
         contactSectionLabel: 'お問い合わせセクションのプレースホルダー',
         modalCloseLabel: 'フォームを閉じる',
         footerRights: 'All rights reserved.',
-        companyLinkLabel: '会社公式サイトへ',
+
         currentRoleLabel: '現在の職務'
       },
       footer: {

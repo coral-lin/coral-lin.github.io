@@ -167,14 +167,8 @@ let currentLocale = preferredLocale;
     introContainer.innerHTML = `
       <span class="eyebrow">${escapeHtml(content.intro.badge)}</span>
       <h1>${escapeHtml(content.intro.name)}</h1>
-      <a
-        class="eyebrow company-link"
-        href="${escapeHtml(content.intro.companyUrl)}"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="${escapeHtml(content.intro.company)} - ${escapeHtml(content.ui.companyLinkLabel)}"
-      >
-        ${escapeHtml(content.intro.company)}
+    
+     
       </a>
       <p>${escapeHtml(content.intro.summary || '')}</p>
     `;

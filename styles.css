@@ -223,15 +223,6 @@ summary {
   font-size: 1.15rem;
 }
 
-.company-link {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.5rem 0.9rem;
-  border-radius: 999px;
-  background: rgba(167, 185, 170, 0.2);
-  text-decoration: none;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
 
 .company-link:hover,
 .company-link:focus-visible {
