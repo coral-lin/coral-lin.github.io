@@ -9,8 +9,7 @@ window.siteContent = {
       intro: {
         badge: '網管工程師',
         name: 'Coral Lin',
-        company: '信業科技股份有限公司',
-        companyUrl: 'https://www.sinew.com.tw',
+        company: '信X科技股份有限公司',
         summary: '電子與測試背景出發，持續往 Network／Infrastructure 發展的 IT 工作者'
       },
       coreLabel: '核心準則',
@@ -45,7 +44,7 @@ window.siteContent = {
           year: '2010',
           role: '助理工程師',
           title: '助理工程師',
-          company: '信業科技股份有限公司',
+          company: '信X科技股份有限公司',
           description: '負責產品後端功能驗證測試、硬體測試、手焊電子產品、系統圖片繪製，以及首次採用零配件測試。',
           open: false
         },
@@ -53,7 +52,7 @@ window.siteContent = {
           year: '2025',
           role: '網管工程師',
           title: '網管工程師',
-          company: '信業科技股份有限公司',
+          company: '信X科技股份有限公司',
           description: '負責公司內部網路、伺服器、Firewall、Switch、VPN、AP 與 Mail Server 等基礎設備的維運與故障排查。\n監控 Linux Server、系統 Log、磁碟容量與備份狀態。\n處理使用者端連線與系統問題，確認現象後進行追蹤、修正與再驗證。\n同時協助既有系統與 PHP 應用程式的維護與優化。',
           open: true
         }
@@ -115,6 +114,7 @@ window.siteContent = {
       },
       ui: {
         languageSwitcherLabel: '語言切換',
+        visitCounterLabel: '累計瀏覽人數：',
         portraitLabel: '個人照片',
         portraitAlt: 'Coral Lin 的頭像',
         diagramLabel: '三大圓形循環導向圖示',
@@ -140,8 +140,7 @@ window.siteContent = {
       intro: {
         badge: 'Network & Infrastructure Engineer',
         name: 'Coral Lin',
-        company: 'Sinew Technology Co., Ltd.',
-        companyUrl: 'https://www.sinew.com.tw',
+        company: 'X Technology Co., Ltd.',
         summary: 'Focused on network, server, mail systems, and IT operations management with strong troubleshooting, monitoring, and system optimization skills.'
       },
       coreLabel: 'Core Principles',
@@ -176,7 +175,7 @@ window.siteContent = {
           year: '2010',
           role: 'Assistant Engineer',
           title: 'Assistant Engineer',
-          company: 'Sinew Technology Co., Ltd.',
+          company: 'x Technology Co., Ltd.',
           description: 'Responsible for backend functional verification testing, hardware testing, hand-soldering of electronic products, system image preparation, and first-use component testing.',
           open: false
         },
@@ -184,7 +183,7 @@ window.siteContent = {
           year: '2025',
           role: 'Network Administrator',
           title: 'Network Administrator',
-          company: 'Sinew Technology Co., Ltd.',
+          company: 'X Technology Co., Ltd.',
           description: 'Managed internal network, server, firewall, switch, VPN, AP, and Mail Server operations.\nMonitored Linux servers, system logs, disk usage, and backup status.\nResolved user-side connectivity and system issues through investigation, fix, and re-verification.\nSupported maintenance and optimization of existing systems and PHP applications.',
           open: true
         }
@@ -246,6 +245,7 @@ window.siteContent = {
       },
       ui: {
         languageSwitcherLabel: 'Language switcher',
+        visitCounterLabel: 'Total Page Views:',
         portraitLabel: 'Profile photo',
         portraitAlt: 'Portrait of Coral Lin',
         diagramLabel: 'Three-part circular workflow diagram',
@@ -271,8 +271,7 @@ window.siteContent = {
       intro: {
         badge: 'ネットワーク＆インフラエンジニア',
         name: 'Coral Lin',
-        company: '信業科技株式会社',
-        companyUrl: 'https://www.sinew.com.tw',
+        company: '信x科技株式会社',
         summary: 'ネットワーク、サーバー、メールシステム、IT運用管理に注力し、障害対応、監視、システム最適化の実務を持っています。'
       },
       coreLabel: '基本方針',
@@ -307,7 +306,7 @@ window.siteContent = {
           year: '2010',
           role: 'アシスタントエンジニア',
           title: 'アシスタントエンジニア',
-          company: '信業科技株式会社',
+          company: '信x科技株式会社',
           description: '製品のバックエンド機能検証テスト、ハードウェアテスト、電子機器の手はんだ作業、システム画像作成、初採用部品のテストを担当しました。',
           open: false
         },
@@ -315,7 +314,7 @@ window.siteContent = {
           year: '2025',
           role: 'ネットワーク管理者',
           title: 'ネットワーク管理者',
-          company: '信業科技株式会社',
+          company: '信x科技株式会社',
           description: '社内のネットワーク、サーバー、Firewall、Switch、VPN、AP、Mail Server などの基盤設備を保守し、障害対応を行いました。\nLinux Server、システムログ、ディスク容量、バックアップ状況を監視しました。\n利用者側の接続やシステム障害を確認し、調査・修正・再検証を実施しました。\n既存システムと PHP アプリケーションの保守・改善にも携わっています。',
           open: true
         }
@@ -377,6 +376,7 @@ window.siteContent = {
       },
       ui: {
         languageSwitcherLabel: '言語切替',
+        visitCounterLabel: '累計閲覧数：',
         portraitLabel: 'プロフィール写真',
         portraitAlt: 'Coral Lin のプロフィール写真',
         diagramLabel: '3つの円で構成された仕事の進め方の図',

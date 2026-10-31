@@ -5,16 +5,22 @@
   <link rel="icon" type="image/jpeg" href="assets/portrait.jpg">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Content-Security-Policy"
-    content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' http://localhost:3000 http://127.0.0.1:3000 https://script.google.com; object-src 'none'; base-uri 'self'; form-action 'self' https://script.google.com;" />
+  <meta http-equiv="Content-Security-Policy"content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://script.google.com https://script.googleusercontent.com; connect-src 'self' http://localhost:3000 http://127.0.0.1:3000 https://script.google.com https://script.googleusercontent.com; object-src 'none'; base-uri 'self'; form-action 'self' https://script.google.com;" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>個人履歷</title>
   <meta name="description" content="個人履歷網站，包含自我介紹、職涯軸、技能與作品的靜態展示。" />
-  <link rel="stylesheet" href="styles.css" />
+
 </head>
 
 <body>
+  
+  <!-- 累計瀏覽人數：數字由 script.js 載入 -->
+  <div class="visit-counter" aria-live="polite">
+    <span id="visit-counter-label">累計瀏覽人數：</span>
+    <span id="visit-count">—</span>
+  </div>
+
   <!-- 語言切換按鈕。如果要增加或修改可切換的語言，先修改這裡，再確認 content.js 是否有對應語言資料。 -->
   <div class="lang-switcher" aria-label="Language switcher">
     <button type="button" class="lang-btn is-active" data-lang="zh-Hant">繁體</button>

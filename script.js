@@ -80,6 +80,86 @@ let currentLocale = preferredLocale;
   const segmentArrows = document.querySelectorAll('.segment-arrow');
   const focusLabels = document.querySelectorAll('[data-role="label"]');
   const contactApiUrl = 'https://script.google.com/macros/s/AKfycbwDIv72NvyRqUI8Szu-lcW8AC2xUBh2T2A9gv_ZBnkBRKU34QHX7nlBEfPFA0NYUPA/exec';
+  // 訪問統計 GAS 網址（填入已部署的 Web App 網址）
+  const visitStatsApiUrl = 'https://script.google.com/macros/s/AKfycbwGGxhX7fE9rfZorS7ZuCE4JUGyaJFoFr3tRXtQZGFbAKuzWQsAedTjEpq0csjTylwA/exec';
+  
+  // 訪問統計：每次頁面載入寫入一次，再讀取最新總數。
+  async function initializeVisitCounter() {
+    const countElement = document.getElementById('visit-count');
+
+    if (
+      !countElement ||
+      !visitStatsApiUrl.startsWith('https://script.google.com/macros/s/') ||
+      !visitStatsApiUrl.endsWith('/exec')
+    ) {
+      console.warn('訪問統計尚未設定有效的 GAS 網址。');
+      return;
+    }
+
+    try {
+      // 先寫入一次瀏覽紀錄；text/plain 可避免一般 JSON POST 的預檢請求。
+      await fetch(visitStatsApiUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'text/plain;charset=UTF-8'
+        },
+        body: JSON.stringify({
+          locale: currentLocale
+        })
+      });
+
+      // 再透過 JSONP 讀取最新累計次數。
+      await new Promise((resolve, reject) => {
+        let settled = false;
+        const script = document.createElement('script');
+
+        const timeoutId = window.setTimeout(() => {
+          finish(new Error('讀取訪問統計逾時'));
+        }, 10000);
+
+        function finish(error, data) {
+          if (settled) return;
+          settled = true;
+
+          window.clearTimeout(timeoutId);
+          script.remove();
+          delete window.visitCounterCallback;
+
+          if (error) {
+            reject(error);
+            return;
+          }
+
+          if (
+            data?.success !== true ||
+            !Number.isFinite(Number(data.totalVisits))
+          ) {
+            reject(new Error('訪問統計回傳資料無效'));
+            return;
+          }
+
+          countElement.textContent = String(Number(data.totalVisits));
+          resolve();
+        }
+
+        window.visitCounterCallback = (data) => finish(null, data);
+
+        script.onerror = () => {
+          finish(new Error('無法載入訪問統計資料'));
+        };
+
+        script.src =
+          `${visitStatsApiUrl}?callback=visitCounterCallback&_=${Date.now()}`;
+
+        document.head.appendChild(script);
+      });
+    } catch (error) {
+      console.warn('訪問統計暫時無法使用：', error);
+    }
+  }
+
+  
   function escapeHtml(text) {
     return String(text)
       .replace(/&/g, '&amp;')
@@ -112,6 +192,11 @@ let currentLocale = preferredLocale;
   function renderStaticContent() {
     const ui = content?.ui;
     if (!ui) return;
+
+    const visitCounterLabel = document.getElementById('visit-counter-label');
+    if (visitCounterLabel && ui.visitCounterLabel) {
+      visitCounterLabel.textContent = ui.visitCounterLabel;
+    }
 
     const textTargets = [
       [document.querySelector('#experience .section-header h2'), ui.experienceTitle],
@@ -549,4 +634,7 @@ let currentLocale = preferredLocale;
     btn.classList.toggle('is-active', btn.dataset.lang === currentLocale);
 });
   setFocusState(null);
+
+  // 每次頁面載入時記錄一次瀏覽並更新累計數字。
+  initializeVisitCounter();
 });

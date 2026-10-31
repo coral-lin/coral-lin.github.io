@@ -1198,6 +1198,19 @@ summary {
 }
  
 
+/* 累計瀏覽人數 */
+.visit-counter {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 40;
+  max-width: calc(100vw - 2rem);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+
 /* =========================
    平板 / 手機
    ========================= */
@@ -1298,5 +1311,7 @@ summary {
     fill: var(--ring-c) !important;
     stroke: none !important;
   }
+
+  
   
 }
