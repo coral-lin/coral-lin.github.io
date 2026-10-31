@@ -7,15 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     yearEl.textContent = new Date().getFullYear();
   }
 
-/*const browserLocale = navigator.language || navigator.languages?.[0] || 'zh-Hant';
-  const supportedLocales = Object.keys(window.siteContent?.texts || {});
-  const preferredLocale = supportedLocales.includes(browserLocale)
-    ? browserLocale
-    : supportedLocales.includes('zh-Hant')
-      ? 'zh-Hant'
-      : supportedLocales[0];
-
-  let currentLocale = preferredLocale;*/
   const browserLocale =
   navigator.language ||
   navigator.languages?.[0] ||
